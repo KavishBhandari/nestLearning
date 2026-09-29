@@ -1,7 +1,8 @@
 import {
   Controller, Get, Post, Body, Patch, Param, Delete, HttpStatus,
   UploadedFile, UseInterceptors,
-  Query,  //both are used to upload a file
+  Query,
+  UseGuards,  //both are used to upload a file
 } from '@nestjs/common';
 import { omit } from 'lodash';
 import { SignOptions } from 'jsonwebtoken';
@@ -11,8 +12,11 @@ import { AuthService } from './auth.service';
 import { CreateAuthDto, SignInDto } from './dto/create-auth.dto';
 import { UpdateAuthDto } from './dto/update-auth.dto';
 import commonHelper from '../helpers/commonHelper.';
-import { messages, userProfilePicSize, userProfilePicUploadedPath } from '../utils/constant';
+import { messages, roles, userProfilePicSize, userProfilePicUploadedPath } from '../utils/constant';
 import { QueryDto } from './dto/common-query.dto';
+import { JwtAuthGuard } from './guards/jwt-auth.guard';
+import { Roles } from '../decorator/roles.decorator';
+import { RolesGuard } from './guards/role-gurad';
 
 
 @Controller('auth')
@@ -67,6 +71,8 @@ export class AuthController {
   };
 
   @Get("userProfile")
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(roles.ADMIN)
   async getUserProfile(@Query() query: QueryDto) {
     try {
       const userProfile = await this.authService.getUserProfile(query);

@@ -5,7 +5,7 @@ import {
     Injectable,
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
-import { ROLES_KEY } from '../decorators/roles.decorator';
+import { ROLES_KEY } from '../../decorator/roles.decorator';
 
 @Injectable()
 export class RolesGuard implements CanActivate {
@@ -30,6 +30,7 @@ export class RolesGuard implements CanActivate {
         }
 
         const userRole = user.roleId?.roleName;
+        console.log('User Role::::::::', userRole);
 
         if (!userRole) {
             throw new ForbiddenException('User role not found');
@@ -43,4 +44,4 @@ export class RolesGuard implements CanActivate {
 
         return true;
     }
-}
+};

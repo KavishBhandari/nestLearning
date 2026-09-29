@@ -26,5 +26,6 @@ export const userProfilePicUploadedPath = 'src/public/userProfiePic';
 //export default messages;
 
 export const roles = {
-    CUSTOMER:  "Customer"
+    CUSTOMER:  "Customer",
+    ADMIN: "Admin"
 }
