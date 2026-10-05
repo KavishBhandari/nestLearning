@@ -10,5 +10,9 @@ export const UserImageSchema = new mongoose.Schema<userImage>({
     profilepic: {
         type:String,
         required:true
+    },
+    deleted_at: {
+        type: Date,
+        default: null
     }
 });

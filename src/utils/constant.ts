@@ -17,6 +17,14 @@ export const messages = {
     ROLE_NOT_FOUND: "Role not found.",
     ROLE_ALREADY_EXIST: "Role already exists.",
 
+    BRAND_CREATED_SUCCESS: "Brand created successfully",
+    BRAND_ALREADY_EXISTS: "Brand already exists",
+    BRAND_FETCHED_SUCCESS: "Brand fetched successfully",
+    BRAND_LIST_FETCHED_SUCCESS: "Brand list fetched successfully",
+    BRAND_NOT_FOUND: "Brand not found",
+    BRAND_UPDATED_SUCCESS: "Brand updated successfully",
+    BRAND_DELETED_SUCCESS: "Brand deleted successfully",
+
 };
 
 //export const userProfilePicUploadedPath = "../public/userProfiePic";
@@ -26,6 +34,6 @@ export const userProfilePicUploadedPath = 'src/public/userProfiePic';
 //export default messages;
 
 export const roles = {
-    CUSTOMER:  "Customer",
+    CUSTOMER: "Customer",
     ADMIN: "Admin"
 }
