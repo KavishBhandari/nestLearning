@@ -1,7 +1,8 @@
 const models = {
     Category : "Category",
     SubCategory : "SubCategory",
-    Role : "Role"
+    Role : "Role",
+    Brand : "Brand"
 };
 
 export default models;

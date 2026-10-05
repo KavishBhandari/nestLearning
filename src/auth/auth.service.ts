@@ -12,6 +12,7 @@ import { userImage } from '../database/Interface/userImage';
 import commonHelper from '../helpers/commonHelper.';
 import models from '../utils/modelName';
 import { RoleInterface } from '../database/Interface/roleInterface';
+import { authPayloadInterface } from './strategies/jwt.strategy';
 
 @Injectable()
 export class AuthService {
@@ -48,7 +49,7 @@ export class AuthService {
   async signup(createAuthDto: CreateAuthDto, fileName: string) {
     const customerId = await this.getCustomerRole();
     const user = await this.userModel.create({
-      ...createAuthDto, 
+      ...createAuthDto,
       roleId: new mongoose.Types.ObjectId(customerId)
     });
     await this.userAddresssModel.create({
@@ -206,6 +207,55 @@ export class AuthService {
       data,
       pagination: pagination
     };
+  };
+
+  getOwnProfile = async (user: authPayloadInterface) => {
+    let pipeline: mongoose.PipelineStage[] = [];
+    pipeline = [
+      {
+        $match: {
+          _id: new mongoose.Types.ObjectId(user._id)
+        }
+      },
+      {
+        $lookup: {
+          from: "useraddrresses",
+          localField: "_id",
+          foreignField: "userId",
+          pipeline: [
+            { $match: { deleted_at: null } },
+            //{ $project: { _id: 0, city: 1, address: 1, userId: 1 } }
+          ],
+          as: "userAddress"
+        }
+      },
+      {
+        $lookup: {
+          from: "userimages",
+          localField: "_id",
+          foreignField: "userId",
+           pipeline: [
+            { $match: { deleted_at: null } },
+            //{ $project: { _id: 0, city: 1, address: 1, userId: 1 } }
+          ],
+          as: "userImage"
+        }
+      },
+      {
+        $project: {
+          _id: 1,
+          name: 1,
+          email: 1,
+          "userAddress.city": 1,
+          "userAddress.address": 1,
+          "userAddress.userId": 1,
+          "userImage.profilepic": 1
+        }
+      },
+    ];
+
+    return await this.userModel.aggregate(pipeline);
+
   };
 
   /*getUserProfile = async (

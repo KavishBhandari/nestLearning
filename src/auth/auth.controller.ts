@@ -17,6 +17,8 @@ import { QueryDto } from './dto/common-query.dto';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { Roles } from '../decorator/roles.decorator';
 import { RolesGuard } from './guards/role-gurad';
+import { loginUser } from '../decorator/loginUser';
+import type { authPayloadInterface } from './strategies/jwt.strategy';
 
 
 @Controller('auth')
@@ -53,8 +55,8 @@ export class AuthController {
   async signin(@Body() signInDto: SignInDto) {
     const user = await this.authService.isUserValid(signInDto.email);
     await commonHelper.comparePassword(signInDto.password, user.password);
-    const authToken = await commonHelper.generateAuthToken({ _id: user.id, email: user.email, roleId:user.roleId }, process.env.JWT_SECRET_KEY!, process.env.ACCESS_TOKEN_EXPIRE_TIME! as SignOptions['expiresIn']);
-    const refreshToken = await commonHelper.generateAuthToken({ _id: user.id, email: user.email, roleId:user.roleId }, process.env.JWT_SECRET_KEY!, process.env.REFRESH_TOKEN_EXPIRE_TIME! as SignOptions['expiresIn']);
+    const authToken = await commonHelper.generateAuthToken({ _id: user.id, email: user.email, roleId: user.roleId }, process.env.JWT_SECRET_KEY!, process.env.ACCESS_TOKEN_EXPIRE_TIME! as SignOptions['expiresIn']);
+    const refreshToken = await commonHelper.generateAuthToken({ _id: user.id, email: user.email, roleId: user.roleId }, process.env.JWT_SECRET_KEY!, process.env.REFRESH_TOKEN_EXPIRE_TIME! as SignOptions['expiresIn']);
     await this.authService.storeAuthToken(user._id,
       authToken,
       refreshToken
@@ -70,10 +72,25 @@ export class AuthController {
     };
   };
 
+  @Get("getOwnProfile")
+  @UseGuards(JwtAuthGuard)
+  async getOwnProfile( @loginUser() user: authPayloadInterface) {
+    const userProfile = await this.authService.getOwnProfile(user);
+    return {
+      statusCode: HttpStatus.OK,
+      message: messages.USER_SIGNUP_SUCCESS,
+      data: {
+        userProfile
+      }
+    };
+  }
+
   @Get("userProfile")
-  @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(roles.ADMIN)
-  async getUserProfile(@Query() query: QueryDto) {
+  @UseGuards(JwtAuthGuard /*RolesGuard*/)
+  //@Roles(roles.ADMIN)// @loginUser() user: authPayloadInterface
+  async getUserProfile(
+    @Query() query: QueryDto,
+  ) {
     try {
       const userProfile = await this.authService.getUserProfile(query);
       return {

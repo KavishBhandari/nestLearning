@@ -14,6 +14,10 @@ export const UserAddressSchema = new mongoose.Schema<userAddressInterface>({
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
         required: true
+    },
+    deleted_at: {
+        type: Date,
+        default: null
     }
 },
     {

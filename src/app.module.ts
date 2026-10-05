@@ -9,6 +9,7 @@ import { join } from 'path';
 //import { CategoryModule } from './category/category.module';
 import { CategoryModule } from './category/category.module';
 import { RoleModule } from './role/role.module';
+import { BrandModule } from './brand/brand.module';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { RoleModule } from './role/role.module';
     AuthModule,
     CategoryModule,
     RoleModule,
+    BrandModule,
     //CategoryModule
   ],
   controllers: [AppController],
