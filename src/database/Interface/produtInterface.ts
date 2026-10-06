@@ -6,5 +6,6 @@ export interface ProductInterface {
   description: string;
   price: number;
   brand_id: mongoose.Types.ObjectId;
+  category_id: mongoose.Types.ObjectId;
   deleted_at?: Date | null;
 }

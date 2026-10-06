@@ -25,11 +25,24 @@ export const messages = {
     BRAND_UPDATED_SUCCESS: "Brand updated successfully",
     BRAND_DELETED_SUCCESS: "Brand deleted successfully",
 
+    
+    PRODUCT_CREATED_SUCCESS: "Product created successfully.",
+    PRODUCT_FETCH_SUCCESS: "Product fetched successfully.",
+    PRODUCT_UPDATED_SUCCESS: "Product updated successfully.",
+    PRODUCT_DELETED_SUCCESS: "Product deleted successfully.",
+    PRODUCT_NOT_FOUND: "Product not found.",
+    PRODUCT_ALREADY_EXIST: "Product already exists with the same name.",
+
+    REVIEW_ALREADY_EXIST: "You have already submitted a review for this product.",
+    REVIEW_CREATED_SUCCESS: "Review created successfully.",
+    REVIEW_FETCH_SUCCESS: "Review fetched successfully.",
+
 };
 
 //export const userProfilePicUploadedPath = "../public/userProfiePic";
 export const userProfilePicSize = 5 * 1024 * 1024;
 export const userProfilePicUploadedPath = 'src/public/userProfiePic';
+export const productImagesUploadedPath = 'src/public/productImages';
 
 //export default messages;
 
