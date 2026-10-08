@@ -1,5 +1,5 @@
 import { ProductService } from './product.service';
-import { Body, Controller, Get, Post, HttpStatus, Param, Put, UseInterceptors, UploadedFile, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Post, HttpStatus, Param, Put, UseInterceptors, UploadedFile, UseGuards, Query } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ProductCreationDto } from './dto/productCreation.dto';
 import { messages, productImagesUploadedPath, userProfilePicSize } from '../utils/constant';
@@ -11,6 +11,7 @@ import { loginUser } from '../decorator/loginUser';
 import type { authPayloadInterface } from '../auth/strategies/jwt.strategy';
 import { ProductReviewDto } from './dto/productReview.dto';
 import { AuthService } from '../auth/auth.service';
+import { QueryDto } from '../auth/dto/common-query.dto';
 
 @Controller('product')
 export class ProductController {
@@ -78,8 +79,8 @@ export class ProductController {
   };
 
   @Get("productListing")
-  async productListing() {
-    const produts = await this.productService.productListing();
+  async productListing(@Query() query : QueryDto) {
+    const produts = await this.productService.productListing(query);
     return {
         statusCode: HttpStatus.OK,
         message: messages.REVIEW_CREATED_SUCCESS,

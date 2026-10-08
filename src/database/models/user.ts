@@ -19,6 +19,10 @@ export const UserSchema = new mongoose.Schema<userInterface>({
         type: mongoose.Schema.Types.ObjectId,
         ref: models.Role,
         required: true
+    },
+    deleted_at : {
+        type: Date,
+        default : null
     }
 
 }, {
