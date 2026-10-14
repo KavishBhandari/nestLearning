@@ -10,6 +10,8 @@ import { messages } from '../utils/constant';
 import { ProductCreationDto } from './dto/productCreation.dto';
 import { authPayloadInterface } from '../auth/strategies/jwt.strategy';
 import commonHelper from '../helpers/commonHelper.';
+import { ProductLike } from '../database/Interface/productLikeInterface';
+import { ProductLikeDto } from './dto/produtLike.dto';
 
 @Injectable()
 export class ProductService {
@@ -21,7 +23,10 @@ export class ProductService {
         private readonly productImageModel: Model<ProductImageInterface>,
 
         @InjectModel(models.ProductReview)
-        private readonly productReviewModel: Model<ProductReviewInterface>
+        private readonly productReviewModel: Model<ProductReviewInterface>,
+
+        @InjectModel(models.ProdutLike)
+        private readonly productLikeModel: Model<ProductLike>
     ) { }
 
     isProdutAlreadyExist = async (name: string) => {
@@ -78,6 +83,28 @@ export class ProductService {
             reviewerName: userName
         });
     };
+
+    addProductLike = async (userId: string, bodyData: ProductLikeDto) => {
+        return await this.productLikeModel.create({
+            userId: new mongoose.Types.ObjectId(userId),
+            productId: new mongoose.Types.ObjectId(bodyData.productId),
+            isLike: bodyData.isLike
+        });
+    };
+
+    getProductLike = async (userId: string) => {
+        return await this.productLikeModel.find({
+            userId: userId,
+            isLike:  true,
+
+        }).select("_id, userId productId").populate({
+            path: "productId",
+            match: { deleted_at : null},
+            select: "_id name title description price"
+        });
+    };
+
+
 
     productListing = async (query: { page: string, limit: string, search?: string, sortBy: string, sortOrder: string, minPrice?: number, maxPrice?: number, category_id?: string, minRating?: number, categoryName?: string }) => {
 
@@ -198,7 +225,7 @@ export class ProductService {
                 $unwind: { path: "$Brand" },
             },
             {
-                $unwind : {path : "$category"}
+                $unwind: { path: "$category" }
             }
         ];
 

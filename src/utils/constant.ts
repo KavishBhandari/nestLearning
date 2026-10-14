@@ -37,6 +37,8 @@ export const messages = {
     REVIEW_CREATED_SUCCESS: "Review created successfully.",
     REVIEW_FETCH_SUCCESS: "Review fetched successfully.",
 
+    PRODUCT_LIKE_ADDED_SUCCESS: "Product like added successfully."
+
 };
 
 //export const userProfilePicUploadedPath = "../public/userProfiePic";

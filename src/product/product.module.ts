@@ -7,6 +7,7 @@ import { ProductSchema } from '../database/models/product';
 import { ProductImageSchema } from '../database/models/productImages';
 import { ProductReviewSchema } from '../database/models/productReview';
 import { AuthModule } from '../auth/auth.module';
+import { ProductLikeSchema } from '../database/models/productLike';
 
 @Module({
   imports: [
@@ -23,6 +24,10 @@ import { AuthModule } from '../auth/auth.module';
       {
         name: models.ProductReview,
         schema: ProductReviewSchema
+      },
+      {
+        name : models.ProdutLike,
+        schema: ProductLikeSchema
       }
     ])
   ],

@@ -14,7 +14,7 @@ import { messages } from "../utils/constant";
 class CommonHelper {
     hashPassword = async (password: string) => {
         const saltValue = await bcrypt.genSalt(10);
-        return bcrypt.hash(password, saltValue);
+        return await bcrypt.hash(password, saltValue);
     };
 
     comparePassword = async (bodyPassword: string, savedPasswoord: string) => {

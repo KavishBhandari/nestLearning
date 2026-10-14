@@ -1,5 +1,5 @@
 import { ProductService } from './product.service';
-import { Body, Controller, Get, Post, HttpStatus, Param, Put, UseInterceptors, UploadedFile, UseGuards, Query } from '@nestjs/common';
+import { Body, Controller, Get, Post, HttpStatus, Param, Put, UseInterceptors, UploadedFile, UseGuards, Query, HttpCode } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ProductCreationDto } from './dto/productCreation.dto';
 import { messages, productImagesUploadedPath, userProfilePicSize } from '../utils/constant';
@@ -12,6 +12,7 @@ import type { authPayloadInterface } from '../auth/strategies/jwt.strategy';
 import { ProductReviewDto } from './dto/productReview.dto';
 import { AuthService } from '../auth/auth.service';
 import { QueryDto } from '../auth/dto/common-query.dto';
+import { ProductLikeDto } from './dto/produtLike.dto';
 
 @Controller('product')
 export class ProductController {
@@ -90,6 +91,8 @@ export class ProductController {
       };
   };
 
+
+
   async updateProduct() {
 
   };
@@ -97,4 +100,30 @@ export class ProductController {
   async deleteProduct() {
 
   };
+
+  @UseGuards(JwtAuthGuard)
+  @Post("addProductLike")
+  async addProductLike(@Body() body: ProductLikeDto, @loginUser() user : authPayloadInterface) {
+    await this.productService.addProductLike(user._id, body);
+    return {
+      statusCode : HttpStatus.OK,
+      message : messages.PRODUCT_LIKE_ADDED_SUCCESS,
+      data : {}
+    };
+  };
+
+  @UseGuards(JwtAuthGuard)
+  @Get("userProductLike")
+  async getProductLike(@loginUser() user: authPayloadInterface){
+    const getUsersProductLike = await this.productService.getProductLike(user._id);
+    return {
+      statusCode : HttpStatus.OK,
+      message : messages.PRODUCT_LIKE_ADDED_SUCCESS,
+      data : {
+        getUsersProductLike
+      }
+    };
+  };
+
+
 }

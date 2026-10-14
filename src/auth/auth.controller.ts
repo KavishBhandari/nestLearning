@@ -55,8 +55,8 @@ export class AuthController {
   async signin(@Body() signInDto: SignInDto) {
     const user = await this.authService.isUserValid(signInDto.email);
     await commonHelper.comparePassword(signInDto.password, user.password);
-    const authToken = await commonHelper.generateAuthToken({ _id: user.id, email: user.email, roleId: user.roleId }, process.env.JWT_SECRET_KEY!, process.env.ACCESS_TOKEN_EXPIRE_TIME! as SignOptions['expiresIn']);
-    const refreshToken = await commonHelper.generateAuthToken({ _id: user.id, email: user.email, roleId: user.roleId }, process.env.JWT_SECRET_KEY!, process.env.REFRESH_TOKEN_EXPIRE_TIME! as SignOptions['expiresIn']);
+    const authToken = await commonHelper.generateAuthToken({ _id: user.id, email: user.email, roleId: user.roleId._id }, process.env.JWT_SECRET_KEY!, process.env.ACCESS_TOKEN_EXPIRE_TIME! as SignOptions['expiresIn']);
+    const refreshToken = await commonHelper.generateAuthToken({ _id: user.id, email: user.email, roleId: user.roleId._id }, process.env.JWT_SECRET_KEY!, process.env.REFRESH_TOKEN_EXPIRE_TIME! as SignOptions['expiresIn']);
     await this.authService.storeAuthToken(user._id,
       authToken,
       refreshToken

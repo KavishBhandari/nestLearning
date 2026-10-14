@@ -6,7 +6,8 @@ const models = {
     Product : "Product",
     ProductImage : "ProductImage",
     ProductReview : "ProductReview",
-    User: "User"
+    User: "User",
+    ProdutLike : "ProductLike"
 };
 
 export default models;

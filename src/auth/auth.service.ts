@@ -83,7 +83,10 @@ export class AuthService {
   isUserValid = async (email: string) => {
     const user = await this.userModel.findOne({
       email: email
-    }).select("_id name email password roleId");
+    }).select("_id name email password roleId").populate({
+      path: 'roleId',
+      select: '_id roleName',
+    });/*.select("_id name email password roleId")*/;
     if (!user) {
       throw new HttpException(
         messages.INVALID_CREDENTIALS,
@@ -234,7 +237,7 @@ export class AuthService {
           from: "userimages",
           localField: "_id",
           foreignField: "userId",
-           pipeline: [
+          pipeline: [
             { $match: { deleted_at: null } },
             //{ $project: { _id: 0, city: 1, address: 1, userId: 1 } }
           ],
