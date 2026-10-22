@@ -20,7 +20,7 @@ export class ProductController {
     @InjectConnection()
     private readonly connection: mongoose.Connection,//for transaction
     private readonly productService: ProductService,
-    private readonly authService : AuthService
+    private readonly authService: AuthService
   ) { }
 
   @Post("addProduct")
@@ -80,15 +80,15 @@ export class ProductController {
   };
 
   @Get("productListing")
-  async productListing(@Query() query : QueryDto) {
+  async productListing(@Query() query: QueryDto) {
     const produts = await this.productService.productListing(query);
     return {
-        statusCode: HttpStatus.OK,
-        message: messages.REVIEW_CREATED_SUCCESS,
-        data: {
-          produts
-        }
-      };
+      statusCode: HttpStatus.OK,
+      message: messages.REVIEW_CREATED_SUCCESS,
+      data: {
+        produts
+      }
+    };
   };
 
 
@@ -103,25 +103,28 @@ export class ProductController {
 
   @UseGuards(JwtAuthGuard)
   @Post("addProductLike")
-  async addProductLike(@Body() body: ProductLikeDto, @loginUser() user : authPayloadInterface) {
+  async addProductLike(@Body() body: ProductLikeDto, @loginUser() user: authPayloadInterface) {
     await this.productService.addProductLike(user._id, body);
     return {
-      statusCode : HttpStatus.OK,
-      message : messages.PRODUCT_LIKE_ADDED_SUCCESS,
-      data : {}
+      statusCode: HttpStatus.OK,
+      message: messages.PRODUCT_LIKE_ADDED_SUCCESS,
+      data: {}
     };
   };
 
   @UseGuards(JwtAuthGuard)
   @Get("userProductLike")
-  async getProductLike(@loginUser() user: authPayloadInterface){
-    const getUsersProductLike = await this.productService.getProductLike(user._id);
+  async getProductLike(@loginUser() user: authPayloadInterface, @Query() query: QueryDto) {
+    const getUsersProductLike = await this.productService.getProductLike1(user._id, query);
     return {
-      statusCode : HttpStatus.OK,
-      message : messages.PRODUCT_LIKE_ADDED_SUCCESS,
-      data : {
+      statusCode: HttpStatus.OK,
+      message: messages.PRODUCT_LIKE_ADDED_SUCCESS,
+      data : getUsersProductLike
+      /*data: {
+        //getUsersProductLike: getUsersProductLike.data
         getUsersProductLike
-      }
+      }*/
+
     };
   };
 

@@ -9,6 +9,7 @@ export const UserSchema = new mongoose.Schema<userInterface>({
     },
     email: {
         type: String,
+        index:true,
         required: true
     },
     password: {

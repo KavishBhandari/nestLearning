@@ -8,6 +8,7 @@ import { ProductImageSchema } from '../database/models/productImages';
 import { ProductReviewSchema } from '../database/models/productReview';
 import { AuthModule } from '../auth/auth.module';
 import { ProductLikeSchema } from '../database/models/productLike';
+import { ProductCartModule } from './product-cart/product-cart.module';
 
 @Module({
   imports: [
@@ -29,7 +30,8 @@ import { ProductLikeSchema } from '../database/models/productLike';
         name : models.ProdutLike,
         schema: ProductLikeSchema
       }
-    ])
+    ]),
+    ProductCartModule
   ],
   controllers: [ProductController],
   providers: [ProductService],

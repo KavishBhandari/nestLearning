@@ -95,14 +95,100 @@ export class ProductService {
     getProductLike = async (userId: string) => {
         return await this.productLikeModel.find({
             userId: userId,
-            isLike:  true,
+            isLike: true,
 
         }).select("_id, userId productId").populate({
             path: "productId",
-            match: { deleted_at : null},
+            match: { deleted_at: null },
             select: "_id name title description price"
         });
     };
+
+    getProductLike1 = async (userId: string, query: { page: string, limit: string }) => {
+
+        const getPagination = commonHelper.getPagination(query);
+
+        const pipeline: mongoose.PipelineStage[] = [
+            {
+                $match: {
+                    userId: new mongoose.Types.ObjectId(userId)
+                }
+            },
+            {
+                $lookup: {
+                    from: "product",
+                    localField: "productId",
+                    foreignField: "_id",
+                    pipeline: [
+                        {
+                            $match: {
+                                deleted_at: null
+                            }
+                        },
+                        {
+                            $lookup: {
+                                from: "brand",
+                                localField: "brand_id",
+                                foreignField: "_id",
+                                as: "Brand"
+                            }
+                        },
+                        {
+                            $lookup: {
+                                from: "categories",
+                                localField: "category_id",
+                                foreignField: "_id",
+                                as: "ProductCategory"
+                            }
+                        },
+                        {
+                            $lookup: {
+                                from: "productImages",
+                                localField: "_id",
+                                foreignField: "productId",
+                                as: "ProductImages"
+                            }
+                        },
+                    ],
+                    as: "Products"
+                }
+
+            }
+        ];
+
+        pipeline.push({
+            $facet: {
+                data: [
+                    { $skip: getPagination.offset },
+                    { $limit: getPagination.limit }
+                ],
+                totalCount: [{ $count: "count" }]
+            }
+        });
+        const fetchProductLike = await this.productLikeModel.aggregate(pipeline);
+        console.log("fetchProductLike ::::::::::::::::",fetchProductLike)
+        console.log("fetchProductLike ::::::::::::::::", fetchProductLike[0]?.totalCount[0]?.count);
+
+
+        const pagination = commonHelper.createPagination(
+            fetchProductLike[0]?.totalCount[0]?.count,
+            Number(query.page),
+            getPagination.limit
+        );
+
+        /*const data = {
+            ...fetchProductLike,
+            TotalLikes : fetchProductLike[0]?.totalCount[0]?.count
+        };*/
+
+        return {
+            getUsersProductLike : fetchProductLike[0]?.data,
+            totalLike : fetchProductLike[0]?.totalCount[0]?.count,
+            pagination
+        }
+    };
+
+
 
 
 

@@ -11,6 +11,7 @@ import { CategoryModule } from './category/category.module';
 import { RoleModule } from './role/role.module';
 import { BrandModule } from './brand/brand.module';
 import { ProductModule } from './product/product.module';
+import { CouponModule } from './coupon/coupon.module';
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { ProductModule } from './product/product.module';
     RoleModule,
     BrandModule,
     ProductModule,
+    CouponModule,
     //CategoryModule
   ],
   controllers: [AppController],

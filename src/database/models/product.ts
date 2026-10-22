@@ -29,6 +29,10 @@ export const ProductSchema = new mongoose.Schema<ProductInterface>({
         ref: models.Category,
         required: true
     },
+    stock: {
+        type: Number,
+        required: true
+    },
     deleted_at: {
         type: Date,
         default: null
