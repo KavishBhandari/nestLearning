@@ -5,4 +5,5 @@ export interface userInterface {
     email: string,
     password: string,
     roleId: mongoose.Types.ObjectId
+    deleted_at?:Date
 };

@@ -25,11 +25,50 @@ export const messages = {
     BRAND_UPDATED_SUCCESS: "Brand updated successfully",
     BRAND_DELETED_SUCCESS: "Brand deleted successfully",
 
+
+    PRODUCT_CREATED_SUCCESS: "Product created successfully.",
+    PRODUCT_FETCH_SUCCESS: "Product fetched successfully.",
+    PRODUCT_UPDATED_SUCCESS: "Product updated successfully.",
+    PRODUCT_DELETED_SUCCESS: "Product deleted successfully.",
+    PRODUCT_NOT_FOUND: "Product not found.",
+    PRODUCT_ALREADY_EXIST: "Product already exists with the same name.",
+
+    REVIEW_ALREADY_EXIST: "You have already submitted a review for this product.",
+    REVIEW_CREATED_SUCCESS: "Review created successfully.",
+    REVIEW_FETCH_SUCCESS: "Review fetched successfully.",
+
+    PRODUCT_LIKE_ADDED_SUCCESS: "Product like added successfully.",
+
+    ADD_TO_CART_PRODUCT_SUCCESS: "Product successfully added in cart.",
+
+    // Coupon CRUD
+    COUPON_CREATED_SUCCESS: 'Coupon created successfully.',
+    COUPON_FETCH_SUCCESS: 'Coupons fetched successfully.',
+    COUPON_UPDATED_SUCCESS: 'Coupon updated successfully.',
+    COUPON_DELETED_SUCCESS: 'Coupon deleted successfully.',
+
+    // Coupon errors
+    COUPON_NOT_FOUND: 'Coupon not found.',
+    COUPON_ALREADY_EXIST: 'Coupon already exists.',
+    COUPON_ALREADY_DELETED: 'Coupon is already deleted.',
+    COUPON_CODE_REQUIRED: 'Coupon code is required.',
+    COUPON_CODE_INVALID: 'Coupon code is invalid.',
+    COUPON_CODE_ALREADY_EXIST: 'Coupon code is already exist.',
+    COUPON_TITLE_ALREADY_EXIST: 'Coupon TITLE is already exist.',
+    COUPON_EXPIRED: 'Coupon has expired.',
+    COUPON_INACTIVE: 'Coupon is inactive.',
+
+    
+
 };
 
 //export const userProfilePicUploadedPath = "../public/userProfiePic";
 export const userProfilePicSize = 5 * 1024 * 1024;
 export const userProfilePicUploadedPath = 'src/public/userProfiePic';
+export const productImagesUploadedPath = 'src/public/productImages';
+
+export const GST_RATE  = 18;
+export const SHIPPING_CHARGE = 0;
 
 //export default messages;
 

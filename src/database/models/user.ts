@@ -9,6 +9,7 @@ export const UserSchema = new mongoose.Schema<userInterface>({
     },
     email: {
         type: String,
+        index:true,
         required: true
     },
     password: {
@@ -19,6 +20,10 @@ export const UserSchema = new mongoose.Schema<userInterface>({
         type: mongoose.Schema.Types.ObjectId,
         ref: models.Role,
         required: true
+    },
+    deleted_at : {
+        type: Date,
+        default : null
     }
 
 }, {
